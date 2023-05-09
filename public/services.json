@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "serviceName": "Electrical System",
+        "img": "https://i.ibb.co/gVj1GDB/1.jpg",
+        "price": 25
+    },
+    {
+        "id": 2,
+        "serviceName": "Engine Diagonistic",
+        "img": "https://i.ibb.co/ScVCFGK/2.jpg",
+        "price": 30
+    },
+    {
+        "id": 3,
+        "serviceName": "Auto Car Repair",
+        "img": "https://i.ibb.co/TLGrbyF/3.jpg",
+        "price": 25
+    },
+    {
+        "id": 4,
+        "serviceName": "Electrical System",
+        "img": "https://i.ibb.co/SnqLQgB/5.jpg",
+        "price": 25
+    },
+    {
+        "id": 5,
+        "serviceName": "Electrical System",
+        "img": "https://i.ibb.co/SnqLQgB/5.jpg",
+        "price": 25
+    },
+    {
+        "id": 6,
+        "serviceName": "Electrical System",
+        "img": "https://i.ibb.co/SnqLQgB/5.jpg",
+        "price": 25
+    }
+]
