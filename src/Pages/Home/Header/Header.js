@@ -1,18 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import './Header.css'
+import { AuthContext } from '../../../Context/AuthProvider';
 
 const Header = () => {
-
+    const { logOut, user } = useContext(AuthContext)
+    const handleLogOut = () => {
+        logOut()
+    }
     const navMenu = < >
         <nav className='link'>
 
             <NavLink to='/home' className='no-underline'>Home</NavLink>
-            <NavLink to='/login'className='no-underline'>Login</NavLink>
+            {
+                user ? <button class="btn btn-sm" onClick={handleLogOut}>LogOut</button> :
+                    <NavLink to='/login' className='no-underline'>Login</NavLink>
+            }
         </nav>
-
-
-
     </>
 
 

@@ -4,17 +4,20 @@ import { AiFillEye, AiFillFacebook, AiFillGooglePlusCircle, AiOutlineFacebook, A
 import { AuthContext } from '../../../Context/AuthProvider';
 import { Link } from 'react-router-dom';
 import { Toaster, toast } from 'react-hot-toast';
+import { GoogleAuthProvider } from 'firebase/auth';
 
 const Login = () => {
 
     const [errorMassage, setErrorMassage] = useState(null)
-    const { loginManagin } = useContext(AuthContext);
-    
+    const { loginManagin, googleSignIn } = useContext(AuthContext);
+
     const [showPass, setShowPass] = useState(false)
 
     const passwordInput = useRef(null);
 
 
+
+    // -------show password 
     const handleShowPass = () => {
         if (showPass === true) {
             setShowPass(false)
@@ -28,7 +31,7 @@ const Login = () => {
         }
     }
 
-
+    // login with input 
     const handleLogIn = (event) => {
         event.preventDefault();
         const email = event.target.email.value;
@@ -50,12 +53,37 @@ const Login = () => {
     }
 
 
-    const handle = (event) => {
+    const googleLogIn = (event) => {
+        console.log("google log in ");
+        googleSignIn()
+            .then((result) => {
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                // const credential = GoogleAuthProvider.credentialFromResult(result);
+                // const token = credential.accessToken;
+                const user = result.user;
+                toast.success("Succesfully google log in !!")
+            }).catch((error) => {
+                // Handle Errors here.
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // The email of the user's account used.
+                const email = error.customData.email;
+                // The AuthCredential type that was used.
+                const credential = GoogleAuthProvider.credentialFromError(error);
+                // ...
+            });
         console.log("loig");
     }
 
     const handleForgetPassword = () => {
         console.log("Forger");
+    }
+
+    const facebookLogIn = () => {
+
+    }
+    const linkedInLogIn = () => {
+
     }
 
     return (
@@ -64,7 +92,7 @@ const Login = () => {
 
 
                 <div className="text-center lg:text-left lg:w-1/2 lg:mx-4">
-                
+
                     <img src={loginImg} alt="" />
                 </div>
                 <Toaster />
@@ -105,16 +133,16 @@ const Login = () => {
                     <div className='text-center '>
                         <h1 className='text-1xl'>Or Sign in with </h1>
                         <p className='flex  justify-center text-5xl'>
-                            <span onClick={handle} className='mx-1 my-3 mb-4 text-blue-500 border-1  p-'>
+                            <span onClick={facebookLogIn} className='mx-1 my-3 mb-4 text-blue-500 border-1  p-'>
 
                                 <AiOutlineFacebook />
                             </span>
-                            <span onClick={handle} className='mx-1 my-3 mb-4 text-blue-900 '>
+                            <span onClick={linkedInLogIn} className='mx-1 my-3 mb-4 text-blue-900 '>
 
                                 <AiOutlineLinkedin />
                             </span>
 
-                            <span onClick={handle} className='mx-1 my-3 mb-4 '>
+                            <span onClick={googleLogIn} className='mx-1 my-3 mb-4 '>
                                 <AiFillGooglePlusCircle />
                             </span>
                         </p>

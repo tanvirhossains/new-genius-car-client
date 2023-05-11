@@ -1,5 +1,5 @@
-import React, { createContext } from 'react';
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import React, { createContext, useEffect, useState } from 'react';
+import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import app from '../firebase.init';
 
 
@@ -7,6 +7,18 @@ import app from '../firebase.init';
 export const AuthContext = createContext(null)
 const AuthProvider = ({ children }) => {
     const auth = getAuth(app);
+
+    const provider = new GoogleAuthProvider();
+
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    const googleSignIn = () => {
+        return signInWithPopup(auth, provider)
+    }
+    const facebookSignIn = () => {
+        return signInWithPopup(auth, provider)
+    }
 
 
     const registerManaging = (email, password) => {
@@ -18,10 +30,35 @@ const AuthProvider = ({ children }) => {
         return signInWithEmailAndPassword(auth, email, password)
     }
 
-    const user = { name: "tanir" }
+
+    const logOut = () => {
+        // localStorage.removeItem('genius-token');
+        return signOut(auth);
+    }
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, currentUser => {
+            // console.log(currentUser);
+            setUser(currentUser);
+            // setLoading(false);
+        });
+
+        return () => {
+            return unsubscribe();
+        }
+    }, [])
 
 
-    const item = { user, loginManagin, registerManaging };
+
+
+
+    const item = {
+        user,
+        loginManagin,
+        registerManaging,
+        googleSignIn,
+        facebookSignIn,
+        logOut
+    };
 
     return (
 

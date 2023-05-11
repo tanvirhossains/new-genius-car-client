@@ -8,8 +8,11 @@ import { Toaster, toast } from 'react-hot-toast';
 const Register = () => {
 
     const [errorMassage, setErrorMassage] = useState(null)
+    const [showPass, setShowPass] = useState(false)
+    const [confirmShowPass, setConfirmShowPass] = useState(false)
 
-    const { registerManaging } = useContext(AuthContext);
+
+    const { registerManaging, googleSignIn } = useContext(AuthContext);
 
     const handleRegister = (event) => {
         event.preventDefault();
@@ -50,12 +53,10 @@ const Register = () => {
     }
 
 
-    const [showPass, setShowPass] = useState(false)
-    const [confirmShowPass, setConfirmShowPass] = useState(false)
+
 
     const passwordInput = useRef(null);
     const confirmInput = useRef(null);
-
 
     const handleShowPass = () => {
         if (showPass === true) {
@@ -86,7 +87,31 @@ const Register = () => {
     const handle = (event) => {
         console.log("loig");
     }
+    const googleLogIn = (event) => {
+        console.log("google log in ");
+        googleSignIn()
+            .then((result) => {
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                // const credential = GoogleAuthProvider.credentialFromResult(result);
+                // const token = credential.accessToken;
+                const user = result.user;
+                toast.success("Succesfully google log in !!")
+            }).catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
 
+            });
+        console.log("loig");
+    }
+
+
+
+    const facebookLogIn = () => {
+
+    }
+    const linkedInLogIn = () => {
+
+    }
 
     return (
         <div className="hero  bg-slate-200 p-10">
@@ -165,16 +190,16 @@ const Register = () => {
                     <div className='text-center '>
                         <h1 className='text-1xl'>Or Sign in with </h1>
                         <p className='flex  justify-center text-5xl'>
-                            <span onClick={handle} className='mx-1 my-3 mb-4 text-blue-500 border-1  p-'>
+                            <span onClick={facebookLogIn} className='mx-1 my-3 mb-4 text-blue-500 border-1  p-'>
 
                                 <AiOutlineFacebook />
                             </span>
-                            <span onClick={handle} className='mx-1 my-3 mb-4 text-blue-900 '>
+                            <span onClick={linkedInLogIn} className='mx-1 my-3 mb-4 text-blue-900 '>
 
                                 <AiOutlineLinkedin />
                             </span>
 
-                            <span onClick={handle} className='mx-1 my-3 mb-4 '>
+                            <span onClick={googleLogIn} className='mx-1 my-3 mb-4 '>
                                 <AiFillGooglePlusCircle />
                             </span>
                         </p>

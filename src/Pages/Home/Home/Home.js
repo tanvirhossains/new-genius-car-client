@@ -7,6 +7,8 @@ import Services from '../Services/Services';
 import ServiceHelp from '../ServiceHelp/ServiceHelp';
 import Products from '../Products/Products';
 import TeamMembers from '../Team/TeamMembers';
+import CoreFeatures from '../CoreFeatures/CoreFeatures';
+import Testimonials from '../Testimonials/Testimonials';
 
 const Home = () => {
     return (
@@ -21,7 +23,9 @@ const Home = () => {
 
             <TeamMembers></TeamMembers>
 
-            
+            <CoreFeatures></CoreFeatures>
+            <Testimonials></Testimonials>
+
 
 
 

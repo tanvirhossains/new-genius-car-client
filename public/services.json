@@ -25,14 +25,14 @@
     },
     {
         "id": 5,
-        "serviceName": "Electrical System",
-        "img": "https://i.ibb.co/SnqLQgB/5.jpg",
+        "serviceName": "Electrical Atuchment",
+        "img": "https://i.ibb.co/Dwmtny9/6.jpg",
         "price": 25
     },
     {
         "id": 6,
         "serviceName": "Electrical System",
-        "img": "https://i.ibb.co/SnqLQgB/5.jpg",
+        "img": "https://i.ibb.co/GpkKJW3/4.jpg",
         "price": 25
     }
 ]
