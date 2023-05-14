@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import './Header.css'
 import { AuthContext } from '../../../Context/AuthProvider';
+import { AiOutlineShopping } from 'react-icons/ai';
 
 const Header = () => {
     const { logOut, user } = useContext(AuthContext)
@@ -16,6 +17,8 @@ const Header = () => {
                 user ? <button class="btn btn-sm" onClick={handleLogOut}>LogOut</button> :
                     <NavLink to='/login' className='no-underline'>Login</NavLink>
             }
+            {/* <NavLink to='checkout'>ChaekOut</NavLink> */}
+            <NavLink to='serviceNew'>Service New</NavLink>
         </nav>
     </>
 
@@ -66,6 +69,10 @@ const Header = () => {
                 </ul>
             </div>
             <div className="navbar-end">
+                <Link to={`orders/${user?.email}`}>
+
+                <AiOutlineShopping/>
+                </Link>
                 <a className="btn">Get started</a>
             </div>
         </div>

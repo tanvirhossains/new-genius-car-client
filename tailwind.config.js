@@ -6,6 +6,7 @@ module.exports = {
 
       colors: {
         'font': '#FF3811',
+        'second': '#F3F3F3'
       },
 
     },

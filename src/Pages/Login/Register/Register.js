@@ -2,18 +2,28 @@ import React, { useContext, useRef, useState } from 'react';
 import loginImg from '../../../assets/images/login/login.svg'
 import { AiFillEye, AiFillFacebook, AiFillGooglePlusCircle, AiOutlineFacebook, AiOutlineLinkedin } from 'react-icons/ai';
 import { AuthContext } from '../../../Context/AuthProvider';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Toaster, toast } from 'react-hot-toast';
 
 const Register = () => {
 
     const [errorMassage, setErrorMassage] = useState(null)
+
+    // password show
     const [showPass, setShowPass] = useState(false)
     const [confirmShowPass, setConfirmShowPass] = useState(false)
 
+    const { registerManaging, googleSignIn, profileUpdate } = useContext(AuthContext);
 
-    const { registerManaging, googleSignIn } = useContext(AuthContext);
+    let navigate = useNavigate();
+    let location = useLocation();
 
+    let from = location.state?.from?.pathname || "/";
+
+    console.log("register form:>",from);
+    console.log("register form:>",location);
+
+    // create user 
     const handleRegister = (event) => {
         event.preventDefault();
         const name = event.target.name.value;
@@ -38,6 +48,16 @@ const Register = () => {
                 .then((userCredential) => {
                     const user = userCredential.user;
                     toast.success("Register Successfully !")
+
+                    profileUpdate(name, photoUrl)
+                        .then(() => {
+                            toast.success("profile updata")
+                        }).catch((error) => {
+                            toast.error("profile update error!!")
+                        });
+
+                    navigate(from, { replace: true });
+
                     event.target.reset();
 
 
@@ -52,9 +72,11 @@ const Register = () => {
 
     }
 
+    // update user profile
 
 
 
+    // show password 
     const passwordInput = useRef(null);
     const confirmInput = useRef(null);
 
@@ -70,6 +92,8 @@ const Register = () => {
             console.log("now");
         }
     }
+
+
     const handleConfirmShowPass = () => {
         if (confirmShowPass === true) {
             setConfirmShowPass(false)
@@ -87,6 +111,8 @@ const Register = () => {
     const handle = (event) => {
         console.log("loig");
     }
+
+    // google log in
     const googleLogIn = (event) => {
         console.log("google log in ");
         googleSignIn()
@@ -105,10 +131,12 @@ const Register = () => {
     }
 
 
-
+    // facebook log in
     const facebookLogIn = () => {
 
     }
+
+    //facebook log in
     const linkedInLogIn = () => {
 
     }

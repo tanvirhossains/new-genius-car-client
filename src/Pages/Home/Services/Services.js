@@ -4,15 +4,38 @@ import Service from './Service';
 
 const Services = () => {
     const [ourServices, setOurServices] = useState([])
+    const [order, setOrder] = useState({})
 
 
     useEffect(() => {
 
-        fetch("services.json")
+        fetch("http://localhost:8000/services")
             .then(res => res.json())
-            .then(data => setOurServices(data))
+            .then(data => {
+                setOurServices(data)
+                // console.log(data)
+            })
 
     }, [])
+
+    const handleServiceOrder = (id) => {
+
+        console.log("ok", id);
+
+
+        const url = `http://localhost:8000/services/${id}`
+        fetch(url)
+            .then(res => res.json())
+            .then(result => {
+                const newOrder = [...order, result]
+                setOrder(newOrder)
+
+            })
+
+            console.log(order);
+    }
+
+
     return (
         <div>
             <div className='text-center'>
@@ -27,8 +50,9 @@ const Services = () => {
                 {
                     ourServices.map(ourService =>
                         <Service
-                            key={ourService.id}
+                            key={ourService._id}
                             ourService={ourService}
+                            handleServiceOrder={handleServiceOrder}
                         ></Service>
                     )
                 }
