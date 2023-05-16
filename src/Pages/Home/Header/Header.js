@@ -3,6 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import './Header.css'
 import { AuthContext } from '../../../Context/AuthProvider';
 import { AiOutlineShopping } from 'react-icons/ai';
+import person from '../../../assets/images/userIcon.png'
 
 const Header = () => {
     const { logOut, user } = useContext(AuthContext)
@@ -14,10 +15,15 @@ const Header = () => {
 
             <NavLink to='/home' className='no-underline'>Home</NavLink>
             {
-                user ? <button class="btn btn-sm" onClick={handleLogOut}>LogOut</button> :
+                user ? <>
+                    {/* <button class="btn btn-sm" onClick={handleLogOut}>LogOut</button> */}
+                    <NavLink to='/allorders'>All Orders</NavLink>
+                </>
+
+                    :
                     <NavLink to='/login' className='no-underline'>Login</NavLink>
             }
-            {/* <NavLink to='checkout'>ChaekOut</NavLink> */}
+
             <NavLink to='serviceNew'>Service New</NavLink>
         </nav>
     </>
@@ -45,9 +51,11 @@ const Header = () => {
                         <li><a>Item 3</a></li> */}
 
                         {navMenu}
+                        <span> {user?.email}
+                        </span>
                     </ul>
                 </div>
-                <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
+                <a href='/' className="btn btn-ghost normal-case text-xl">daisyUI</a>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
@@ -71,9 +79,34 @@ const Header = () => {
             <div className="navbar-end">
                 <Link to={`orders/${user?.email}`}>
 
-                <AiOutlineShopping/>
+                    {
+                        user && <span className='text-3xl '>
+
+                            <AiOutlineShopping />
+                        </span>
+                    }
                 </Link>
-                <a className="btn">Get started</a>
+                {/* <a className="btn">Get started</a> */}
+                {
+                    user &&
+                    <div className="dropdown dropdown-end">
+                        <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                            <div className="w-10 rounded-full">
+                                <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                            </div>
+                        </label>
+                        <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
+                            <li>
+                                <a className="justify-between">
+                                    Profile
+                                    <span className="badge">New</span>
+                                </a>
+                            </li>
+                            <li><a>Settings</a></li>
+                            <li><a onClick={handleLogOut}>Logout</a></li>
+                        </ul>
+                    </div>
+                }
             </div>
         </div>
     );

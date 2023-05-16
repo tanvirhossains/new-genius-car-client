@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { json, useLoaderData } from 'react-router-dom';
+import { Navigate, json, useLoaderData, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Context/AuthProvider';
 import PhoneInput from 'react-phone-input-2';
 
@@ -8,6 +8,8 @@ const Checkout = () => {
     const [countryCode, setCountryCode] = useState()
     const singleData = useLoaderData()
     const { user } = useContext(AuthContext)
+
+    let navigate = useNavigate();
 
     const { serviceName, img, price, _id } = singleData;
     console.log(user);
@@ -55,7 +57,6 @@ const Checkout = () => {
         const message = event.target.message.value;
 
 
-
         const len = phone.length
 
         console.log(userName, phone, email, message);
@@ -72,6 +73,7 @@ const Checkout = () => {
             price,
             imgUrl: img,
             phone,
+            status: "Pending",
             message
         }
         console.log(order);
@@ -87,6 +89,11 @@ const Checkout = () => {
         })
             .then(res => res.json())
             .then(data => {
+                if (data.acknowledged) {
+                    event.target.reset()
+                    navigate('/')
+
+                }
                 console.log(data);
             })
 

@@ -7,9 +7,13 @@ const MyOrders = () => {
     const myOrdersList = useLoaderData()
     console.log(myOrdersList);
 
+
+    const refresh = () => {
+        
+
+    }
+
     const handleDeleteService = (id) => {
-
-
         fetch(`http://localhost:8000/delete/${id}`, {
             method: "DELETE"
         })
@@ -20,6 +24,7 @@ const MyOrders = () => {
             })
         console.log(id);
     }
+
     return (
         <div>
             <div className="overflow-x-auto w-full">
@@ -32,7 +37,7 @@ const MyOrders = () => {
                             <th>price</th>
                             <th>Phone</th>
                             <th>Date</th>
-                            <th>Favorite Color</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
 

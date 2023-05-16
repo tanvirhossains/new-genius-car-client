@@ -3,8 +3,13 @@ import { AuthContext } from '../Context/AuthProvider';
 import { Navigate, useLocation } from 'react-router-dom';
 
 const PrivateRoute = ({children}) => {
-    const { user } = useContext(AuthContext)
+    const { user, loading } = useContext(AuthContext)
     let location = useLocation();
+
+
+    if(loading){
+        return <p>Loading......</p>
+    }
 
     if (!user) {
         // Redirect them to the /login page, but save the current location they were

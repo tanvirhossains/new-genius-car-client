@@ -64,7 +64,6 @@ const Login = () => {
 
 
     const googleLogIn = (event) => {
-        console.log("google log in ");
         googleSignIn()
             .then((result) => {
                 // This gives you a Google Access Token. You can use it to access the Google API.
@@ -83,7 +82,6 @@ const Login = () => {
                 const credential = GoogleAuthProvider.credentialFromError(error);
                 // ...
             });
-        console.log("loig");
     }
 
     const handleForgetPassword = () => {

@@ -52,12 +52,12 @@ const AuthProvider = ({ children }) => {
 
     // get current user 
     useEffect(() => {
+        setLoading(false)
         const unsubscribe = onAuthStateChanged(auth, currentUser => {
             // console.log(currentUser);
             setUser(currentUser);
             // setLoading(false);
         });
-
         return () => {
             return unsubscribe();
         }
@@ -74,7 +74,8 @@ const AuthProvider = ({ children }) => {
         registerManaging,
         googleSignIn,
         facebookSignIn,
-        logOut
+        logOut,
+        loading
     };
 
     return (

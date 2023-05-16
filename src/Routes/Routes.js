@@ -6,6 +6,7 @@ import Checkout from "../Pages/CheckOut/CheckOut";
 import ServiceNew from "../Pages/Service/ServiceNew";
 import PrivateRoute from "../Private/PrivateRoute";
 import MyOrders from "../Pages/MyOrder/MyOrders";
+import AllOrders from "../Pages/AllOrders.js/AllOrders";
 
 const { createBrowserRouter } = require("react-router-dom");
 
@@ -23,7 +24,6 @@ const router = createBrowserRouter([
                 path: "/home",
                 element: <Home />,
             },
-
             {
                 path: "/login",
                 element: <Login />,
@@ -47,14 +47,17 @@ const router = createBrowserRouter([
             {
                 // shopping cart top-right 
                 path: "/orders/:email",
-                element: <PrivateRoute>
-
-                    <MyOrders />
-                </PrivateRoute>
-
-
-                ,
+                element: <PrivateRoute><MyOrders />
+                </PrivateRoute>,
                 loader: ({ params }) => fetch(`http://localhost:8000/orders/${params.email}`)
+            },
+            {
+                // 
+                path: "/allorders",
+                element:
+                    <AllOrders />
+                ,
+                loader: ({ params }) => fetch(`http://localhost:8000/orders`)
             },
             // {
             //     path: "dashboard",

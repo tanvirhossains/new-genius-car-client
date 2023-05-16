@@ -1,9 +1,33 @@
 import React from 'react';
 import { AiFillCiCircle, AiFillCodeSandboxCircle } from 'react-icons/ai';
 
-const MyOrder = ({ orderList, handleDeleteService }) => {
+const AllOrder = ({ orderList, handleDeleteService }) => {
 
-    const { serviceName, phone, message, price, date, time, imgUrl, _id, status } = orderList
+    const { serviceName, phone, message, price, date, time, imgUrl, _id, email, status } = orderList
+
+
+    const handlSelected = (event) => {
+        const option = event.target.value
+        const statusUpdate = {
+            status: option
+        }
+        console.log(option);
+
+        fetch(`http://localhost:8000/order/${_id}`, {
+            method: "PUT",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(statusUpdate)
+        })
+            .then(res => res.json())
+            .then(result => {
+                console.log("line:27>", option);
+                console.log(result);
+            })
+
+    }
+
 
 
     return (
@@ -41,13 +65,18 @@ const MyOrder = ({ orderList, handleDeleteService }) => {
                 <td>
                     <h1 className='font-bold'>${price}.00</h1>
                 </td>
-                {/* Phone */}
-                <td className='font-bold'>{phone}</td>
+                {/* User Email */}
+                <td className='font-bold'>{email}</td>
                 {/* date */}
                 <td className='font-bold'>{date}</td>
                 <th>
-                    {/* <button className="btn bg-font border-0 btn-xs">{status}</button> */}
-                    <button className={`${status === "Pending" ? "btn bg-font border-0 btn-xs" : " btn bg-green-800 border-0 btn-xs"}`}>{status} </button>
+                    <select name='selected' onChange={handlSelected} className={`select select-sm max-w-xs ${status === "Approved" ? " select-success  " : "bg-font"} `} >
+
+                        <option selected>{status}</option>
+                        <option value={`${status === "Approved" ? "Pending" : "Approved"}`} className='bg-font'>{status === "Approved" ? "Pending" : "Approved"}</option>
+
+                    </select>
+                 
                 </th>
             </tr >
 
@@ -56,4 +85,4 @@ const MyOrder = ({ orderList, handleDeleteService }) => {
     );
 };
 
-export default MyOrder;
+export default AllOrder;
