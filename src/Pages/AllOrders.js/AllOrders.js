@@ -1,46 +1,79 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import AllOrder from './AllOrder';
 import { getCountryCallingCode } from 'react-phone-number-input';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { useContext } from 'react';
+import { AuthContext } from '../../Context/AuthProvider';
 
 const AllOrders = () => {
-    const [newOrders, setOrders] = useState()
+    const { user } = useContext(AuthContext)
+    const [allorders, setAllOrders] = useState([])
     // console.log(AllOrdersList);
-    const AllOrdersList = useLoaderData()
 
     useEffect(() => {
         fetch('http://localhost:8000/orders')
             .then(res => res.json())
-            .then(output => setOrders(output))
-    }, [AllOrdersList])
+            .then(output => {setAllOrders(output)
+            console.log("load date");
+            })
+    }, [user])
 
-    const refresh = () => {
+    // approved a order
+    const handlSelected = (statusValue, id) => {
 
-    }
-    // useEffect(() => {
-    //     setOrders(AllOrdersList)
+        const statusUpdate = {
+            status: statusValue
+        }
+        console.log(statusUpdate);
+        console.log(id);
 
-    // }, [])
-
-    const handleDeleteService = (id) => {
-        fetch(`http://localhost:8000/delete/${id}`, {
-            method: "DELETE"
+        fetch(`http://localhost:8000/order/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(statusUpdate)
         })
             .then(res => res.json())
-            .then(output => {
-                // setOrders(AllOrdersList)
-                console.log(output)
-                toast.success("Order Cancel Successfully!!")
-                if (output.deletedCount > 0) {
-                    alert("deleted successfully!!")
-                    const remaining = AllOrdersList.filter(odr => odr._id !== id);
-                    setOrders(remaining)
+            .then(result => {
+                if (result.modifiedCount > 0) {
+                    const updatedOrders = allorders.find(odr => odr._id === id)
+
+                    const remaining = allorders.filter(odr => odr._id !== id)
+                    const newOrders = [...remaining, updatedOrders]
+                    setAllOrders(newOrders)
+
                 }
+                console.log("line:27>", statusValue);
+                console.log(result);
             })
-        console.log(id);
+
+    }
+
+
+    // delete a order
+    const handleDeleteService = (id) => {
+        const value = window.confirm("are you Sure you wnat to delte!!!")
+        console.log(value);
+        if (value === true) {
+            fetch(`http://localhost:8000/delete/${id}`, {
+                method: "DELETE"
+            })
+                .then(res => res.json())
+                .then(output => {
+                    // setOrders(AllOrdersList)
+                    console.log(output)
+                    toast.success("Order Cancel Successfully!!")
+                    if (output.deletedCount > 0) {
+                        const remaining = allorders.filter(odr => odr._id !== id);
+                        setAllOrders(remaining)
+                    }
+                })
+            console.log(id);
+        }
     }
     return (
         <div>
@@ -59,11 +92,11 @@ const AllOrders = () => {
                     </thead>
 
                     {
-                        AllOrdersList.map(orderList => <AllOrder
+                        allorders?.map(orderList => <AllOrder
                             key={orderList._id}
                             orderList={orderList}
                             handleDeleteService={handleDeleteService}
-
+                            handlSelected={handlSelected}
                         ></AllOrder>)
                     }
 

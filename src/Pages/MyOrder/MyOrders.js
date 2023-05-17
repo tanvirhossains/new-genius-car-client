@@ -2,16 +2,31 @@ import React from 'react';
 import { useLoaderData } from 'react-router-dom';
 import MyOrder from './MyOrder';
 import { toast } from 'react-hot-toast';
+import { useEffect } from 'react';
+import { useContext } from 'react';
+import { AuthContext } from '../../Context/AuthProvider';
+import { useState } from 'react';
 
 const MyOrders = () => {
-    const myOrdersList = useLoaderData()
-    console.log(myOrdersList);
+    // const myOrdersList = useLoaderData()
+    // console.log(myOrdersList);
+    // console.log(myOrdersList.length);
+
+    const { user, loading } = useContext(AuthContext)
+    const [orders, setOrders] = useState([])
+
+    // if (loading) {
+    //     return <p>la</p>
+    // }
 
 
-    const refresh = () => {
-        
-
-    }
+    useEffect(() => {
+        fetch(`http://localhost:8000/orders/${user?.email}`)
+            .then(res => res.json())
+            .then(data => {
+                setOrders(data)
+            })
+    }, [user?.email])
 
     const handleDeleteService = (id) => {
         fetch(`http://localhost:8000/delete/${id}`, {
@@ -21,6 +36,11 @@ const MyOrders = () => {
             .then(output => {
                 console.log(output);
                 toast.success("Order Cancel Successfully!!")
+                if (output.deletedCount > 0) {
+                    window.confirm("Are You want to delete???????")
+                    const remaining = orders.filter(odr => odr._id !== id);
+                    setOrders(remaining);
+                }
             })
         console.log(id);
     }
@@ -28,6 +48,12 @@ const MyOrders = () => {
     return (
         <div>
             <div className="overflow-x-auto w-full">
+                {(orders.lengtn === undefined && orders.length === 0) &&
+                    <div className='text-center  m-11 '>
+                        <h1 className='text-3xl font-bold text-font'>You Have no Order yet!!</h1>
+                        <h1 className='text-1xl font-bold '>Order Please!!!!!</h1>
+                    </div>
+                }
                 <table className="table w-full">
 
                     <thead>
@@ -42,48 +68,12 @@ const MyOrders = () => {
                     </thead>
 
                     {
-                        myOrdersList.map(orderList => <MyOrder
+                        orders.map(orderList => <MyOrder
                             key={orderList._id}
                             orderList={orderList}
                             handleDeleteService={handleDeleteService}
-
                         ></MyOrder>)
                     }
-
-                    {/* <tbody>
-                        <tr>
-                            <th>
-                                <label>
-                                    <input type="checkbox" className="checkbox" />
-                                </label>
-                            </th>
-                            <td>
-                                <div className="flex items-center space-x-3">
-                                    <div className="avatar">
-                                        <div className="mask mask-squircle w-12 h-12">
-                                            <img src="/tailwind-css-component-profile-2@56w.png" alt="Avatar Tailwind CSS Component" />
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="font-bold">Hart Hagerty</div>
-                                        <div className="text-sm opacity-50">United States</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                Zemlak, Daniel and Leannon
-                                <br />
-                                <span className="badge badge-ghost badge-sm">Desktop Support Technician</span>
-                            </td>
-                            <td>Purple</td>
-                            <th>
-                                <button className="btn btn-ghost btn-xs">details</button>
-                            </th>
-                        </tr>
-                 
-                     
-                    </tbody> */}
-
 
                     {/* table footer */}
                     {/* <tfoot>

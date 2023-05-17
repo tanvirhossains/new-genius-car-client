@@ -163,7 +163,7 @@ const Login = () => {
 
                             <p className='items-center flex justify-center mb-10'>
                                 New Here?
-          
+
                                 <Link to='/register' className='text-font font-blod mx-2 '>Register</Link>
                             </p>
                         </div>
@@ -175,7 +175,7 @@ const Login = () => {
 
                 </div>
             </div>
-         </LocationContext.Provider>
+        </LocationContext.Provider>
     );
 };
 

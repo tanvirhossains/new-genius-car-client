@@ -1,32 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiFillCiCircle, AiFillCodeSandboxCircle } from 'react-icons/ai';
 
-const AllOrder = ({ orderList, handleDeleteService }) => {
+const AllOrder = ({ orderList, handleDeleteService, handlSelected }) => {
 
     const { serviceName, phone, message, price, date, time, imgUrl, _id, email, status } = orderList
+    const [adminStatus, setAdminStatus] = useState('')
 
 
-    const handlSelected = (event) => {
-        const option = event.target.value
-        const statusUpdate = {
-            status: option
-        }
-        console.log(option);
 
-        fetch(`http://localhost:8000/order/${_id}`, {
-            method: "PUT",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(statusUpdate)
-        })
-            .then(res => res.json())
-            .then(result => {
-                console.log("line:27>", option);
-                console.log(result);
-            })
 
-    }
+
+    useEffect(() => {
+
+        setAdminStatus(status)
+    }, [])
+    // console.log(adminStatus);
 
 
 
@@ -70,13 +58,13 @@ const AllOrder = ({ orderList, handleDeleteService }) => {
                 {/* date */}
                 <td className='font-bold'>{date}</td>
                 <th>
-                    <select name='selected' onChange={handlSelected} className={`select select-sm max-w-xs ${status === "Approved" ? " select-success  " : "bg-font"} `} >
+                    <select onChange={(e) => handlSelected(e.target.value, _id)} className={`select select-sm max-w-xs ${status === "Approved" ? " bg-green-500  " : "bg-font"} `} >
 
                         <option selected>{status}</option>
-                        <option value={`${status === "Approved" ? "Pending" : "Approved"}`} className='bg-font'>{status === "Approved" ? "Pending" : "Approved"}</option>
+                        <option value={`${status === "Approved" ? "Pending" : "Approved"}`} className='bg-fon'>{status === "Approved" ? "Pending" : "Approved"}</option>
 
                     </select>
-                 
+
                 </th>
             </tr >
 

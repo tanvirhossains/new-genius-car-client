@@ -47,9 +47,9 @@ const router = createBrowserRouter([
             {
                 // shopping cart top-right 
                 path: "/orders/:email",
-                element: <PrivateRoute><MyOrders />
+                element: <PrivateRoute>
+                    <MyOrders />
                 </PrivateRoute>,
-                loader: ({ params }) => fetch(`http://localhost:8000/orders/${params.email}`)
             },
             {
                 // 
@@ -57,7 +57,6 @@ const router = createBrowserRouter([
                 element:
                     <AllOrders />
                 ,
-                loader: ({ params }) => fetch(`http://localhost:8000/orders`)
             },
             // {
             //     path: "dashboard",

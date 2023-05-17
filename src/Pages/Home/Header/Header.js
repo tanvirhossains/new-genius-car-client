@@ -7,6 +7,8 @@ import person from '../../../assets/images/userIcon.png'
 
 const Header = () => {
     const { logOut, user } = useContext(AuthContext)
+
+    console.log(user);
     const handleLogOut = () => {
         logOut()
     }
@@ -51,8 +53,7 @@ const Header = () => {
                         <li><a>Item 3</a></li> */}
 
                         {navMenu}
-                        <span> {user?.email}
-                        </span>
+
                     </ul>
                 </div>
                 <a href='/' className="btn btn-ghost normal-case text-xl">daisyUI</a>
@@ -73,7 +74,8 @@ const Header = () => {
                     </li>
                     <li><a>Item 3</a></li> */}
                     {navMenu}
-
+                    <span className='text-red-600'> {user?.email}
+                    </span>
                 </ul>
             </div>
             <div className="navbar-end">
@@ -92,10 +94,10 @@ const Header = () => {
                     <div className="dropdown dropdown-end">
                         <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                             <div className="w-10 rounded-full">
-                                <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                                <img src={`${user?.photoURL === null ? person : user?.photoURL}`} />
                             </div>
                         </label>
-                        <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
+                        <ul tabIndex={0} className="mt-2 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
                             <li>
                                 <a className="justify-between">
                                     Profile
