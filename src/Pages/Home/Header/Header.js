@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import './Header.css'
 import { AuthContext } from '../../../Context/AuthProvider';
 import { AiOutlineShopping } from 'react-icons/ai';
@@ -7,10 +7,12 @@ import person from '../../../assets/images/userIcon.png'
 
 const Header = () => {
     const { logOut, user } = useContext(AuthContext)
-
+const navigate = useNavigate()
     console.log(user);
     const handleLogOut = () => {
         logOut()
+        navigate('/')
+        
     }
     const navMenu = < >
         <nav className='link'>

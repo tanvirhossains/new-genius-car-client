@@ -20,8 +20,8 @@ const Register = () => {
 
     let from = location.state?.from?.pathname || "/";
 
-    console.log("register form:>",from);
-    console.log("register form:>",location);
+    console.log("register form:>", from);
+    console.log("register form:>", location);
 
     // create user 
     const handleRegister = (event) => {
@@ -52,13 +52,15 @@ const Register = () => {
                     profileUpdate(name, photoUrl)
                         .then(() => {
                             toast.success("profile updata")
+
+                            // navigate(from, { replace: true });
+
+                            event.target.reset();
+
                         }).catch((error) => {
                             toast.error("profile update error!!")
                         });
 
-                    navigate(from, { replace: true });
-
-                    event.target.reset();
 
 
                 })

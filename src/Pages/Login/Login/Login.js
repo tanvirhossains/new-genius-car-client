@@ -51,6 +51,28 @@ const Login = () => {
         loginManagin(email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
+
+                const currentU = {
+                    email: user.email
+                }
+
+
+                fetch('http://localhost:8000/jwt', {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(currentU)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+                        
+                        // local storage is not the bast place to store jwt token
+                        localStorage.setItem("genius-car-token", data.token)
+                    })
+
+
                 navigate(from, { replace: true });
                 toast.success("🐮 Log in Successullty!")
                 event.target.reset();

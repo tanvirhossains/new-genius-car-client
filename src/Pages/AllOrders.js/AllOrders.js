@@ -16,14 +16,16 @@ const AllOrders = () => {
     useEffect(() => {
         fetch('http://localhost:8000/orders')
             .then(res => res.json())
-            .then(output => {setAllOrders(output)
-            console.log("load date");
+            .then(output => {
+                setAllOrders(output)
+                console.log("load date");
             })
     }, [user])
 
     // approved a order
     const handlSelected = (statusValue, id) => {
 
+        console.log(typeof(statusValue));
         const statusUpdate = {
             status: statusValue
         }
@@ -41,7 +43,8 @@ const AllOrders = () => {
             .then(result => {
                 if (result.modifiedCount > 0) {
                     const updatedOrders = allorders.find(odr => odr._id === id)
-
+                    updatedOrders.status = statusValue
+                    console.log(updatedOrders.status);
                     const remaining = allorders.filter(odr => odr._id !== id)
                     const newOrders = [...remaining, updatedOrders]
                     setAllOrders(newOrders)
