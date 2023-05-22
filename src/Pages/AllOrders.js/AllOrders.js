@@ -9,7 +9,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../../Context/AuthProvider';
 
 const AllOrders = () => {
-    const { user } = useContext(AuthContext)
+    const { user, logOut } = useContext(AuthContext)
     const [allorders, setAllOrders] = useState([])
     // console.log(AllOrdersList);
 
@@ -18,14 +18,14 @@ const AllOrders = () => {
             .then(res => res.json())
             .then(output => {
                 setAllOrders(output)
-                console.log("load date");
+                console.log("load date", output);
             })
     }, [user])
 
     // approved a order
     const handlSelected = (statusValue, id) => {
 
-        console.log(typeof(statusValue));
+        console.log(typeof (statusValue));
         const statusUpdate = {
             status: statusValue
         }

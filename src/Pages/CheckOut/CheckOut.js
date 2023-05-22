@@ -59,8 +59,6 @@ const Checkout = () => {
 
         const len = phone.length
 
-        console.log(userName, phone, email, message);
-        console.log("lengthe of number:", len);
 
         const order = {
             service: _id,

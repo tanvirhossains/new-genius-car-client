@@ -12,8 +12,9 @@ const MyOrders = () => {
     // console.log(myOrdersList);
     // console.log(myOrdersList.length);
 
-    const { user, loading } = useContext(AuthContext)
+    const { user, loading, logOut } = useContext(AuthContext)
     const [orders, setOrders] = useState([])
+
 
     // if (loading) {
     //     return <p>la</p>
@@ -21,9 +22,20 @@ const MyOrders = () => {
 
 
     useEffect(() => {
-        fetch(`http://localhost:8000/orders/${user?.email}`)
-            .then(res => res.json())
+        fetch(`http://localhost:8000/orders?email=${user?.email}`, {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('genius-car-token')}`,
+            }
+        })
+            .then(res => {
+                // if (res.status === 401 || res.status === 403) {
+                //     return logOut()
+                // }
+              return  res.json()
+                console.log(res);
+            })
             .then(data => {
+                console.log(data);
                 setOrders(data)
             })
     }, [user?.email])
@@ -38,7 +50,7 @@ const MyOrders = () => {
                 toast.success("Order Cancel Successfully!!")
                 if (output.deletedCount > 0) {
                     window.confirm("Are You want to delete???????")
-                    const remaining = orders.filter(odr => odr._id !== id);
+                    const remaining = orders?.filter(odr => odr._id !== id);
                     setOrders(remaining);
                 }
             })

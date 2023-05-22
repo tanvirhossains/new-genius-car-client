@@ -7,12 +7,12 @@ import person from '../../../assets/images/userIcon.png'
 
 const Header = () => {
     const { logOut, user } = useContext(AuthContext)
-const navigate = useNavigate()
+    const navigate = useNavigate()
     console.log(user);
     const handleLogOut = () => {
         logOut()
         navigate('/')
-        
+
     }
     const navMenu = < >
         <nav className='link'>
