@@ -15,7 +15,7 @@ const AllOrders = () => {
 
     useEffect(() => {
         fetch('http://localhost:8000/orders')
-            .then(res => res.json())
+            .then(res => res.json() )
             .then(output => {
                 setAllOrders(output)
                 console.log("load date", output);
